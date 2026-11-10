@@ -1,0 +1,1523 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap');
+
+/* ================================================================
+   PAVE INVERSE  -  complete theme
+   Palette taken from the welcome / selection / one-to-one designs
+   ================================================================ */
+:root {
+  --navy: #12294d;
+  --navy-2: #1b3a6b;
+  --gold: #c9a24b;
+  --gold-soft: #ead9a6;
+  --green: #1f4a38;
+  --green-2: #2b6650;
+  --red: #d62828;
+  --red-soft: #fdecec;
+  --amber: #b7791f;
+  --ink: #22314d;
+  --muted: #66758b;
+  --line: rgba(18, 41, 77, 0.13);
+  --card: rgba(255, 255, 255, 0.74);
+  --shadow: 0 10px 34px rgba(18, 41, 77, 0.10);
+  --radius: 22px;
+  --font-body: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-brand: 'Montserrat', 'Inter', sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+}
+
+/* ---------- page background (sunset road, washed out) ---------- */
+html, body, .stApp {
+  font-family: var(--font-body);
+  color: var(--ink);
+}
+.stApp {
+  background-image:
+    linear-gradient(180deg, rgba(255,255,255,.50), rgba(255,255,255,.66)),
+    var(--road-bg, none),
+    linear-gradient(180deg, #cfe0ea 0%, #f6e7c9 52%, #e8eef2 100%);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+[data-testid="stAppViewContainer"], [data-testid="stMain"] { background: transparent !important; }
+[data-testid="stHeader"] { background: transparent !important; }
+#MainMenu, footer, [data-testid="stToolbar"], [data-testid="stDecoration"] { visibility: hidden; height: 0; }
+
+.block-container {
+  max-width: 1240px;
+  padding: 2.2rem 2rem 4rem;
+  animation: piFade .55s ease both;
+}
+@keyframes piFade { from { opacity: 0; } to { opacity: 1; } }
+
+h1, h2, h3, h4 { color: var(--navy); font-family: var(--font-body); letter-spacing: -.01em; }
+[data-testid="stHeading"] h3, h2 { font-weight: 700; color: var(--navy); }
+p, li, label, span { font-family: var(--font-body); }
+
+/* ================================================================
+   BRAND / PAGE TITLES
+   ================================================================ */
+.brand { font-family: var(--font-brand); font-weight: 800; color: var(--navy); letter-spacing: .01em; white-space: nowrap; }
+.logo-a { height: .82em; width: .86em; display: inline-block; vertical-align: -.02em; margin: 0 .01em; }
+.logo-a-body { fill: var(--navy); }
+.logo-a-road { fill: var(--gold); }
+
+.pi-page-title { margin: .2rem 0 .9rem; }
+.pi-page-title h1 {
+  margin: 0; padding: 0; font-size: clamp(1.9rem, 3.4vw, 2.9rem);
+  line-height: 1.1; font-weight: 800; color: var(--navy);
+}
+.pi-page-title .suffix { font-family: var(--font-body); font-weight: 700; }
+
+/* ================================================================
+   CARDS  (every st.container(key="card_...") becomes a glass card)
+   ================================================================ */
+[class*="st-key-card_"] {
+  background: var(--card);
+  backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+  border: 1px solid rgba(255, 255, 255, .85);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.15rem 1.4rem 1.3rem;
+  margin-bottom: 1rem;
+}
+[data-testid="stForm"] { border: none !important; padding: 0 !important; background: transparent !important; }
+
+/* section heading (round gold icon + title + optional note) */
+.sec-head { display: flex; align-items: center; gap: .85rem; flex-wrap: wrap; margin-bottom: .55rem; }
+.sec-ico {
+  width: 46px; height: 46px; border-radius: 50%; flex: none;
+  display: grid; place-items: center;
+  background: radial-gradient(circle at 30% 25%, #f3e5b6, #d9bb6a);
+  color: var(--navy); box-shadow: inset 0 0 0 1px rgba(255,255,255,.7), 0 4px 10px rgba(201,162,75,.30);
+}
+.sec-ico .ico { width: 24px; height: 24px; }
+.sec-head h3 { margin: 0; font-size: 1.28rem; font-weight: 700; color: var(--navy); }
+.sec-note { font-size: .84rem; color: var(--muted); font-weight: 500; }
+
+/* layer label chips */
+.layer-chip {
+  display: flex; align-items: center; gap: .65rem; height: 48px;
+  margin-top: 1.72rem; padding: 0 .9rem; border-radius: 12px;
+  background: rgba(18, 41, 77, .06); border: 1px solid var(--line);
+  font-weight: 700; font-size: .92rem; color: var(--navy);
+}
+.layer-chip .chip-ico { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; flex: none; }
+.layer-chip .chip-ico .ico { width: 18px; height: 18px; }
+.layer-chip .tone-gold { background: #ecdca6; color: #6b5316; }
+.layer-chip .tone-blue { background: #d6e4f5; color: #1d4f8c; }
+.semi-infinite {
+  height: 48px; margin-top: 1.72rem; display: flex; align-items: center;
+  font-weight: 600; color: var(--ink); font-size: .95rem;
+}
+
+/* ================================================================
+   INPUTS
+   ================================================================ */
+[data-testid="stWidgetLabel"] p, .stNumberInput label p, .stFileUploader label p {
+  font-size: .82rem; font-weight: 600; color: var(--navy); margin-bottom: .1rem;
+}
+[data-testid="stNumberInput"] [data-baseweb="input"] {
+  background: #fff !important; border: 1px solid #d5dbe6 !important; border-radius: 11px !important;
+  height: 48px; overflow: hidden; transition: border-color .15s, box-shadow .15s;
+}
+[data-testid="stNumberInput"] [data-baseweb="input"] > div { background: transparent !important; }
+[data-testid="stNumberInput"] input {
+  background: transparent !important; color: var(--navy) !important;
+  font-weight: 500; font-size: .98rem; padding-left: .9rem;
+}
+[data-testid="stNumberInput"] [data-baseweb="input"]:focus-within {
+  border-color: var(--gold) !important; box-shadow: 0 0 0 3px rgba(201,162,75,.22);
+}
+[data-testid="stNumberInput"] button {
+  background: transparent !important; color: var(--navy) !important; border: none !important;
+  border-left: 1px solid var(--line) !important; border-radius: 0 !important; width: 34px;
+}
+[data-testid="stNumberInput"] button:hover { background: rgba(201,162,75,.18) !important; }
+[data-testid="stNumberInput"] button svg { width: 15px; height: 15px; }
+
+/* ================================================================
+   BUTTONS
+   ================================================================ */
+.stButton > button, .stDownloadButton > button, [data-testid="stFormSubmitButton"] > button {
+  font-family: var(--font-body); font-weight: 600; border-radius: 12px;
+  transition: transform .12s ease, box-shadow .15s ease, background .15s ease;
+}
+.stButton > button:hover, .stDownloadButton > button:hover, [data-testid="stFormSubmitButton"] > button:hover { transform: translateY(-1px); }
+
+/* primary = deep green */
+button[kind="primary"], button[kind="primaryFormSubmit"],
+button[data-testid="stBaseButton-primary"], button[data-testid="stBaseButton-primaryFormSubmit"] {
+  background: linear-gradient(180deg, var(--green-2), var(--green)) !important;
+  border: 1px solid var(--green) !important; color: #fff !important;
+  box-shadow: 0 8px 18px rgba(31,74,56,.28);
+}
+button[kind="primary"]:hover, button[kind="primaryFormSubmit"]:hover,
+button[data-testid="stBaseButton-primary"]:hover, button[data-testid="stBaseButton-primaryFormSubmit"]:hover {
+  box-shadow: 0 12px 24px rgba(31,74,56,.36); border-color: var(--gold) !important;
+}
+button[kind="primary"] p, button[kind="primaryFormSubmit"] p,
+button[data-testid="stBaseButton-primary"] p, button[data-testid="stBaseButton-primaryFormSubmit"] p { color: #fff !important; }
+
+/* secondary = soft white / navy outline */
+button[kind="secondary"], button[data-testid="stBaseButton-secondary"] {
+  background: rgba(255,255,255,.88) !important; color: var(--navy) !important;
+  border: 1px solid rgba(18,41,77,.28) !important;
+}
+button[kind="secondary"]:hover, button[data-testid="stBaseButton-secondary"]:hover { border-color: var(--gold) !important; }
+button[kind="secondary"] p, button[data-testid="stBaseButton-secondary"] p { color: var(--navy) !important; }
+
+/* back pill */
+.st-key-one_back button, .st-key-excel_back button {
+  background: linear-gradient(180deg, var(--green-2), var(--green)) !important;
+  border: 1px solid var(--green) !important; border-radius: 12px; padding: .45rem 1.1rem;
+  box-shadow: 0 6px 14px rgba(31,74,56,.25);
+}
+.st-key-one_back button p, .st-key-excel_back button p { color: #fff !important; font-weight: 600; }
+.st-key-one_back, .st-key-excel_back { margin-bottom: .9rem; }
+
+/* Run Stage 0 -> play icon */
+[data-testid="stFormSubmitButton"] button { height: 54px; font-size: 1.05rem; letter-spacing: .01em; }
+[data-testid="stFormSubmitButton"] button p::before { content: "\25B6"; font-size: .78em; margin-right: .7rem; }
+
+/* ================================================================
+   TARGET DEFLECTION GRID
+   ================================================================ */
+.pt-head {
+  text-align: center; font-weight: 700; font-size: .85rem; color: var(--navy);
+  padding: .55rem 0; background: rgba(18,41,77,.07); border-radius: 9px;
+}
+.row-label { display: flex; align-items: center; height: 44px; font-weight: 700; font-size: .84rem; color: var(--navy); }
+.st-key-card_targets [data-testid="stNumberInput"] [data-baseweb="input"] { height: 44px; border-radius: 9px !important; }
+.st-key-card_targets [data-testid="stNumberInput"] input { padding-left: .5rem; font-size: .9rem; }
+.st-key-card_targets [data-testid="stNumberInput"] button { width: 26px; }
+.st-key-card_targets [data-testid="stNumberInput"] button svg { width: 12px; height: 12px; }
+
+/* ================================================================
+   ALERTS  (custom banners + native st.* alerts)
+   ================================================================ */
+.pi-alert {
+  display: flex; align-items: center; gap: .9rem; padding: .95rem 1.2rem; margin: .5rem 0 1rem;
+  border-radius: 16px; font-weight: 600; border: 1px solid transparent; box-shadow: var(--shadow);
+}
+.pi-alert .pi-alert-ico { width: 34px; height: 34px; border-radius: 50%; flex: none; display: grid; place-items: center; }
+.pi-alert .pi-alert-ico .ico { width: 20px; height: 20px; }
+.pi-alert-text { line-height: 1.4; }
+
+.pi-error {
+  background: linear-gradient(180deg, #fff1f1, #fde3e3); border-color: #f2a6a6; color: #a31616;
+  border-left: 7px solid var(--red); text-transform: uppercase; letter-spacing: .035em; font-weight: 800;
+  animation: piPulse 1.8s ease-in-out infinite;
+}
+.pi-error .pi-alert-ico { background: var(--red); color: #fff; }
+@keyframes piPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(214,40,40,.38), var(--shadow); }
+  50%      { box-shadow: 0 0 0 9px rgba(214,40,40,0), var(--shadow); }
+}
+.pi-success { background: linear-gradient(180deg, #f0faf4, #def3e6); border-color: #9fd3b2; color: #17543a; border-left: 7px solid #2f9e68; }
+.pi-success .pi-alert-ico { background: #2f9e68; color: #fff; }
+.pi-warning { background: linear-gradient(180deg, #fff9ec, #fdf0d2); border-color: #ecd193; color: #7b5413; border-left: 7px solid var(--gold); }
+.pi-warning .pi-alert-ico { background: var(--gold); color: #fff; }
+
+[data-testid="stAlert"] { border-radius: 14px; border: 1px solid var(--line); box-shadow: var(--shadow); }
+
+/* live optimisation panel */
+.live-pill {
+  display: inline-flex; align-items: center; gap: .7rem; padding: .6rem 1.1rem; margin: .3rem 0 .4rem;
+  border-radius: 999px; background: rgba(18,41,77,.07); border: 1px solid var(--line);
+  font-weight: 600; font-size: .9rem; color: var(--navy);
+}
+.live-pill .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--green-2); animation: piBlink 1.1s ease-in-out infinite; }
+.live-pill.hit { background: var(--red-soft); border-color: #f2a6a6; color: #a31616; }
+.live-pill.hit .dot { background: var(--red); }
+@keyframes piBlink { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .35; transform: scale(.7); } }
+.mod-row { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin-bottom: .6rem; font-size: .88rem; color: var(--navy); }
+.mod-chip { padding: .28rem .7rem; border-radius: 9px; background: #fff; border: 1px solid var(--line); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* ================================================================
+   METRICS, TABLES, CHARTS, PROGRESS, EXPANDER
+   ================================================================ */
+[data-testid="stMetric"] {
+  background: var(--card); border: 1px solid rgba(255,255,255,.9); border-radius: 18px;
+  padding: .95rem 1.1rem; box-shadow: var(--shadow); border-top: 4px solid var(--gold);
+}
+[data-testid="stMetricLabel"] p { color: var(--muted); font-weight: 600; font-size: .82rem; }
+[data-testid="stMetricValue"] { color: var(--navy); font-family: var(--font-brand); font-weight: 700; }
+
+[data-testid="stDataFrame"] {
+  border-radius: 16px; overflow: hidden; border: 1px solid var(--line); box-shadow: var(--shadow); background: #fff;
+}
+[data-testid="stImage"] img, [data-testid="stImageContainer"] img {
+  border-radius: 18px; background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow);
+}
+[data-testid="stProgress"] > div > div > div > div { background: linear-gradient(90deg, var(--gold), var(--green-2)) !important; }
+[data-testid="stExpander"] { border-radius: 16px; border: 1px solid var(--line); background: var(--card); overflow: hidden; }
+[data-testid="stExpander"] summary { font-weight: 600; color: var(--navy); }
+
+/* ================================================================
+   FILE UPLOADER / DOWNLOAD BUTTONS  (Excel page)
+   ================================================================ */
+[data-testid="stFileUploader"] section {
+  background: rgba(255,255,255,.75); border: 2px dashed var(--gold); border-radius: 18px; padding: 1.4rem;
+  transition: background .15s, border-color .15s;
+}
+[data-testid="stFileUploader"] section:hover { background: #fffaf0; border-color: var(--green-2); }
+[data-testid="stFileUploader"] section button {
+  background: var(--navy) !important; color: #fff !important; border: none !important; border-radius: 10px;
+}
+[data-testid="stFileUploader"] section button p { color: #fff !important; }
+[data-testid="stFileUploaderFile"] { background: #fff; border-radius: 12px; border: 1px solid var(--line); padding: .2rem .6rem; }
+
+.stDownloadButton > button[kind="secondary"], .stDownloadButton > button[data-testid="stBaseButton-secondary"] {
+  background: #fff !important; border: 1.5px solid var(--navy) !important;
+}
+
+/* card body text (Excel instructions) */
+[class*="st-key-card_"] ul { padding-left: 1.2rem; }
+[class*="st-key-card_"] li { margin-bottom: .35rem; color: var(--ink); }
+[class*="st-key-card_"] code { background: rgba(18,41,77,.08); color: var(--navy); border-radius: 6px; padding: .05rem .35rem; }
+
+/* ================================================================
+   SELECTION PAGE  (cream + blue cards)
+   ================================================================ */
+.home-head { text-align: center; margin: .6rem 0 1.4rem; }
+.home-brand { font-family: var(--font-brand); font-weight: 800; font-size: clamp(2rem, 4vw, 3.1rem); color: var(--navy); letter-spacing: .02em; }
+.home-sub { font-family: var(--font-brand); font-weight: 500; letter-spacing: .34em; font-size: .78rem; color: var(--muted); margin-top: .25rem; }
+.pick-caption { text-align: center; color: var(--muted); font-weight: 500; margin: 0 0 1.1rem; }
+
+.st-key-card_pick_one, .st-key-card_pick_excel {
+  min-height: 330px; padding: 2rem 2rem 1.8rem; text-align: center; border-radius: 26px;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.st-key-card_pick_one:hover, .st-key-card_pick_excel:hover { transform: translateY(-4px); box-shadow: 0 18px 44px rgba(18,41,77,.18); }
+.st-key-card_pick_one   { background: linear-gradient(180deg, rgba(247,244,222,.92), rgba(238,233,200,.82)) !important; }
+.st-key-card_pick_excel { background: linear-gradient(180deg, rgba(238,245,255,.92), rgba(220,233,250,.84)) !important; }
+
+.pick-ico { width: 78px; height: 78px; border-radius: 50%; margin: .2rem auto 1rem; display: grid; place-items: center; }
+.pick-ico .ico { width: 38px; height: 38px; stroke-width: 1.6; }
+.pick-ico.gold { background: radial-gradient(circle at 30% 25%, #f6ebc3, #e0c777); color: #8a6a1b; }
+.pick-ico.blue { background: radial-gradient(circle at 30% 25%, #dbe9fb, #b9d2f0); color: #1d4f8c; }
+.pick-title { font-size: 1.45rem; font-weight: 700; color: var(--navy); margin: 0 0 .55rem; }
+.pick-text { color: #44536b; font-size: .98rem; line-height: 1.55; margin: 0 auto 1.4rem; max-width: 30ch; min-height: 4.7em; }
+
+.st-key-pick_one button, .st-key-pick_excel button { height: 56px; padding: 0 1.5rem; border-radius: 14px; }
+.st-key-pick_one button > div, .st-key-pick_excel button > div { width: 100%; }
+.st-key-pick_one button p, .st-key-pick_excel button p { display: flex; width: 100%; justify-content: space-between; align-items: center; font-size: 1.02rem; }
+.st-key-pick_one button p::after, .st-key-pick_excel button p::after { content: "\2192"; font-size: 1.25em; }
+.st-key-pick_one button   { background: linear-gradient(180deg, var(--green-2), var(--green)) !important; border-color: var(--green) !important; }
+.st-key-pick_excel button { background: linear-gradient(180deg, var(--navy-2), var(--navy)) !important; border: 1px solid var(--navy) !important; box-shadow: 0 8px 18px rgba(18,41,77,.30); }
+.st-key-pick_excel button p { color: #fff !important; }
+
+/* ================================================================
+   WELCOME HERO
+   ================================================================ */
+.stApp:has(.welcome-hero) .block-container { max-width: 100%; padding: 1.1rem 1.2rem .5rem; }
+.stApp:has(.welcome-hero) [data-testid="stHeader"] { display: none; }
+
+.welcome-hero {
+  position: relative; overflow: hidden; border-radius: 30px; min-height: calc(100vh - 2.4rem);
+  box-shadow: 0 20px 60px rgba(18,41,77,.22);
+  background-image:
+    radial-gradient(circle at 78% 70%, rgba(255,230,160,.95) 0, rgba(255,200,110,.55) 6%, rgba(255,200,110,0) 26%),
+    var(--road-bg, none),
+    linear-gradient(180deg, #86b4d8 0%, #c7dbe3 30%, #f3dfb4 58%, #f1b56d 70%, #f1b56d 100%);
+  background-size: cover; background-position: center bottom;
+}
+.welcome-hero.has-photo {
+  background-image: linear-gradient(180deg, rgba(255,255,255,.38), rgba(255,255,255,0) 58%), var(--road-bg);
+}
+/* CSS-drawn scenery, used only until you drop assets/road_bg.jpg in */
+.welcome-hero .hero-land {
+  position: absolute; left: 0; right: 0; bottom: 26%; height: 17%;
+  background: linear-gradient(180deg, #7b8a7c, #5f7261); opacity: .72;
+  clip-path: polygon(0 62%, 8% 35%, 18% 58%, 32% 22%, 47% 56%, 61% 30%, 76% 58%, 90% 36%, 100% 52%, 100% 100%, 0 100%);
+}
+.welcome-hero .hero-road {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 27%; background: linear-gradient(180deg, #5a5d66, #23262d);
+  clip-path: polygon(47% 0, 53% 0, 100% 100%, 0 100%);
+}
+.welcome-hero .hero-road::after {
+  content: ""; position: absolute; inset: 0;
+  background: repeating-linear-gradient(to bottom, transparent 0 16px, rgba(255,255,255,.85) 16px 30px);
+  clip-path: polygon(49.6% 0, 50.4% 0, 52% 100%, 48% 100%);
+}
+.welcome-hero.has-photo .hero-land, .welcome-hero.has-photo .hero-road { display: none; }
+
+/* glassy teal corner shapes */
+.hero-shape { position: absolute; border-radius: 50%; pointer-events: none; }
+.hero-shape.tr {
+  right: -9%; top: -20%; width: 48%; height: 44%; transform: rotate(-12deg);
+  background: linear-gradient(140deg, rgba(34,92,84,.92), rgba(88,138,128,.55));
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.25);
+}
+.hero-shape.bl {
+  left: -8%; bottom: -16%; width: 32%; height: 40%; transform: rotate(10deg);
+  background: linear-gradient(40deg, rgba(34,92,84,.85), rgba(130,178,168,.35));
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.22);
+}
+
+.hero-content {
+  position: absolute; left: 50%; top: 31%; transform: translateX(-50%);
+  width: min(92%, 980px); text-align: center; animation: heroIn 1s ease both;
+}
+@keyframes heroIn { from { opacity: 0; margin-top: 18px; } to { opacity: 1; margin-top: 0; } }
+.hero-rule { width: 38px; height: 2px; background: var(--gold); margin: 0 auto 1.1rem; }
+.hero-welcome { font-family: var(--font-serif); font-weight: 600; font-size: clamp(1.9rem, 3.6vw, 3.2rem); color: var(--navy); margin-bottom: .1rem; }
+.hero-brand { font-family: var(--font-brand); font-weight: 800; color: var(--navy); font-size: clamp(2.6rem, 7.4vw, 6rem); line-height: 1.05; letter-spacing: .015em; }
+.hero-sub { font-family: var(--font-brand); font-weight: 500; letter-spacing: .42em; font-size: clamp(.68rem, 1.25vw, 1rem); color: #3a4967; margin-top: .6rem; }
+.hero-divider { position: relative; width: min(70%, 520px); height: 1px; background: rgba(18,41,77,.35); margin: 1.1rem auto .95rem; }
+.hero-divider span { position: absolute; left: 50%; top: -2px; transform: translateX(-50%); width: 70px; height: 4px; background: var(--gold); border-radius: 3px; }
+.hero-tag { font-family: var(--font-brand); font-weight: 500; letter-spacing: .26em; font-size: clamp(.62rem, 1.05vw, .86rem); color: var(--navy); }
+
+/* the arrow that opens the selection page */
+.st-key-welcome_next { position: fixed; right: 2.8rem; top: 50%; z-index: 1000; width: auto !important; }
+.st-key-welcome_next button {
+  width: 66px; height: 66px; padding: 0; border-radius: 50% !important;
+  background: rgba(255,255,255,.34) !important; backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(255,255,255,.85) !important; box-shadow: 0 10px 28px rgba(18,41,77,.25);
+  animation: arrowNudge 2.2s ease-in-out infinite;
+}
+.st-key-welcome_next button p { font-size: 1.9rem; line-height: 1; color: var(--navy) !important; margin: 0; }
+.st-key-welcome_next button:hover { background: var(--gold) !important; border-color: var(--gold) !important; animation: none; transform: scale(1.08); }
+@keyframes arrowNudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(7px); } }
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width: 900px) {
+  .block-container { padding: 1.2rem 1rem 3rem; }
+  .layer-chip, .semi-infinite { margin-top: .2rem; }
+  .st-key-welcome_next { right: 1rem; }
+  .st-key-welcome_next button { width: 54px; height: 54px; }
+  .hero-content { top: 26%; }
+}
+
+/* =====================================================================
+   PAVE INVERSE — LIGHT GLASS UI PATCH
+   Additive compatibility overrides for Streamlit dark-theme widgets.
+   Keeps existing class names and Python functionality unchanged.
+   ===================================================================== */
+
+:root {
+  color-scheme: light;
+  --pi-paper: #fbfaf5;
+  --pi-white: #ffffff;
+  --pi-navy: #173052;
+  --pi-ink: #24344d;
+  --pi-muted: #68778d;
+  --pi-gold: #d1b15e;
+  --pi-green: #214d3b;
+  --pi-blue-soft: #e9f2f8;
+  --pi-cream-soft: #f5f0dc;
+  --pi-border: #d8dee5;
+}
+
+/* Keep the page light even if Streamlit is configured to use dark mode. */
+html, body, .stApp,
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"],
+[data-testid="stMainBlockContainer"],
+[data-testid="stVerticalBlock"],
+[data-testid="stHorizontalBlock"] {
+  color: var(--pi-ink) !important;
+}
+
+.stApp {
+  background-color: #eaf0f2 !important;
+  background-image:
+    linear-gradient(180deg, rgba(237,244,247,.36), rgba(250,247,237,.30)),
+    var(--road-bg, linear-gradient(180deg, #dbe7ed 0%, #f5e8cd 55%, #edf0ed 100%)) !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-attachment: fixed !important;
+}
+
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"],
+[data-testid="stMainBlockContainer"] {
+  background: transparent !important;
+}
+
+[data-testid="stHeader"] {
+  background: rgba(255,255,255,.16) !important;
+}
+
+/* Wider, closer to the reference layout. */
+.block-container {
+  width: min(100% - 2rem, 1540px) !important;
+  max-width: 1540px !important;
+  padding: 1.35rem 1.2rem 3.2rem !important;
+}
+
+/* Clear, high-contrast headings and body text. */
+h1, h2, h3, h4, h5, h6,
+[data-testid="stMarkdownContainer"] h1,
+[data-testid="stMarkdownContainer"] h2,
+[data-testid="stMarkdownContainer"] h3 {
+  color: var(--pi-navy) !important;
+}
+
+p, li, label, small,
+[data-testid="stMarkdownContainer"] p,
+[data-testid="stMarkdownContainer"] li,
+[data-testid="stWidgetLabel"] p,
+[data-testid="stCaptionContainer"] {
+  color: var(--pi-ink) !important;
+}
+
+[data-testid="stWidgetLabel"] p,
+[data-testid="stNumberInput"] label,
+[data-testid="stTextInput"] label,
+[data-testid="stSelectbox"] label,
+[data-testid="stFileUploader"] label,
+[data-testid="stSlider"] label {
+  color: var(--pi-navy) !important;
+  font-weight: 650 !important;
+}
+
+/* Cards: opaque enough to keep every label legible over the road image. */
+[class*="st-key-card_"] {
+  background: rgba(255, 255, 250, .88) !important;
+  border: 1px solid rgba(255,255,255,.95) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 12px 32px rgba(25, 46, 68, .12) !important;
+  backdrop-filter: blur(12px) saturate(1.08) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(1.08) !important;
+}
+
+.st-key-card_pick_one {
+  background: linear-gradient(145deg, rgba(250,247,226,.96), rgba(239,234,207,.94)) !important;
+}
+.st-key-card_pick_excel {
+  background: linear-gradient(145deg, rgba(239,247,253,.97), rgba(221,235,247,.95)) !important;
+}
+
+/* THE CRITICAL FIX:
+   Force the actual BaseWeb widget, its wrappers, and the input text to light mode. */
+[data-testid="stNumberInput"],
+[data-testid="stTextInput"],
+[data-testid="stTextArea"],
+[data-testid="stSelectbox"],
+[data-testid="stMultiSelect"],
+[data-testid="stDateInput"],
+[data-testid="stTimeInput"],
+[data-testid="stFileUploader"] {
+  color: var(--pi-ink) !important;
+}
+
+[data-testid="stNumberInput"] [data-baseweb="input"],
+[data-testid="stTextInput"] [data-baseweb="input"],
+[data-testid="stTextArea"] [data-baseweb="textarea"],
+[data-testid="stSelectbox"] [data-baseweb="select"] > div,
+[data-testid="stMultiSelect"] [data-baseweb="select"] > div,
+[data-testid="stDateInput"] [data-baseweb="input"],
+[data-testid="stTimeInput"] [data-baseweb="input"] {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  border: 1px solid #cfd7e2 !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+}
+
+/* Streamlit/BaseWeb often paints nested wrappers separately. */
+[data-testid="stNumberInput"] [data-baseweb="input"] > div,
+[data-testid="stTextInput"] [data-baseweb="input"] > div,
+[data-testid="stTextArea"] [data-baseweb="textarea"] > div,
+[data-testid="stSelectbox"] [data-baseweb="select"] > div > div,
+[data-testid="stMultiSelect"] [data-baseweb="select"] > div > div {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+[data-testid="stNumberInput"] input,
+[data-testid="stTextInput"] input,
+[data-testid="stTextArea"] textarea,
+[data-testid="stSelectbox"] input,
+[data-testid="stMultiSelect"] input,
+[data-testid="stDateInput"] input,
+[data-testid="stTimeInput"] input {
+  color: #173052 !important;
+  -webkit-text-fill-color: #173052 !important;
+  caret-color: #173052 !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  opacity: 1 !important;
+  font-size: .96rem !important;
+  font-weight: 500 !important;
+}
+
+[data-testid="stSelectbox"] [data-baseweb="select"] span,
+[data-testid="stMultiSelect"] [data-baseweb="select"] span,
+[data-testid="stSelectbox"] [role="option"],
+[data-testid="stMultiSelect"] [role="option"] {
+  color: #173052 !important;
+}
+
+[data-testid="stNumberInput"] button {
+  background: #ffffff !important;
+  color: #173052 !important;
+  border-left: 1px solid #e0e5eb !important;
+}
+[data-testid="stNumberInput"] button svg {
+  fill: #173052 !important;
+  color: #173052 !important;
+}
+[data-testid="stNumberInput"] [data-baseweb="input"]:focus-within,
+[data-testid="stTextInput"] [data-baseweb="input"]:focus-within,
+[data-testid="stTextArea"] [data-baseweb="textarea"]:focus-within {
+  border-color: #c5a34c !important;
+  box-shadow: 0 0 0 3px rgba(209,177,94,.20) !important;
+}
+
+/* Keep disabled values readable rather than almost black. */
+[data-testid="stNumberInput"] input:disabled,
+[data-testid="stTextInput"] input:disabled,
+[data-testid="stTextArea"] textarea:disabled {
+  color: #68778d !important;
+  -webkit-text-fill-color: #68778d !important;
+  opacity: 1 !important;
+}
+
+/* Sliders and checkboxes. */
+[data-testid="stSlider"] [data-baseweb="slider"] [role="slider"] {
+  background: #ffffff !important;
+  border: 2px solid #214d3b !important;
+}
+[data-testid="stSlider"] [data-baseweb="slider"] > div {
+  background-color: #dbe2e8 !important;
+}
+[data-testid="stCheckbox"] label,
+[data-testid="stRadio"] label {
+  color: var(--pi-ink) !important;
+}
+[data-testid="stCheckbox"] label span,
+[data-testid="stRadio"] label span {
+  color: var(--pi-ink) !important;
+}
+
+/* Buttons: readable labels in all Streamlit button variants. */
+.stButton > button,
+.stDownloadButton > button,
+[data-testid="stFormSubmitButton"] > button {
+  min-height: 44px;
+  border-radius: 11px !important;
+  font-weight: 650 !important;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+
+button[kind="primary"],
+button[kind="primaryFormSubmit"],
+button[data-testid="stBaseButton-primary"],
+button[data-testid="stBaseButton-primaryFormSubmit"] {
+  background: linear-gradient(180deg, #326b53, #214d3b) !important;
+  color: #ffffff !important;
+  border: 1px solid #214d3b !important;
+}
+button[kind="primary"] *,
+button[kind="primaryFormSubmit"] *,
+button[data-testid="stBaseButton-primary"] *,
+button[data-testid="stBaseButton-primaryFormSubmit"] * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+button[kind="secondary"],
+button[data-testid="stBaseButton-secondary"] {
+  background: rgba(255,255,255,.96) !important;
+  color: #173052 !important;
+  border: 1px solid #c5ceda !important;
+}
+button[kind="secondary"] *,
+button[data-testid="stBaseButton-secondary"] * ,
+button[data-testid="stBaseButton-secondary"] p {
+  color: #173052 !important;
+  -webkit-text-fill-color: #173052 !important;
+}
+
+.stButton > button:hover,
+.stDownloadButton > button:hover,
+[data-testid="stFormSubmitButton"] > button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(24,48,74,.15) !important;
+}
+
+/* Selection cards: retain cream/blue distinction and strong button contrast. */
+.st-key-pick_one button,
+.st-key-pick_one button *,
+.st-key-pick_excel button,
+.st-key-pick_excel button * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+.st-key-pick_one button {
+  background: linear-gradient(180deg, #326b53, #214d3b) !important;
+}
+.st-key-pick_excel button {
+  background: linear-gradient(180deg, #244f7c, #173052) !important;
+}
+
+/* File uploader and upload instructions. */
+[data-testid="stFileUploader"] section {
+  background: rgba(255,255,255,.94) !important;
+  border: 2px dashed #c5a34c !important;
+  border-radius: 16px !important;
+}
+[data-testid="stFileUploader"] section *,
+[data-testid="stFileUploader"] small,
+[data-testid="stFileUploader"] span {
+  color: #24344d !important;
+}
+[data-testid="stFileUploader"] section button {
+  background: #173052 !important;
+  color: #ffffff !important;
+}
+[data-testid="stFileUploader"] section button * {
+  color: #ffffff !important;
+}
+
+/* Metrics, dataframe, charts and expanders. */
+[data-testid="stMetric"] {
+  background: rgba(255,255,255,.92) !important;
+  border: 1px solid rgba(255,255,255,.95) !important;
+  border-top: 4px solid #d1b15e !important;
+  border-radius: 16px !important;
+}
+[data-testid="stMetricLabel"] *,
+[data-testid="stMetricValue"] *,
+[data-testid="stMetricDelta"] * {
+  color: #173052 !important;
+}
+[data-testid="stDataFrame"],
+[data-testid="stTable"] {
+  background: #ffffff !important;
+  border: 1px solid #d8dee5 !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+[data-testid="stExpander"] {
+  background: rgba(255,255,255,.90) !important;
+  border: 1px solid #d8dee5 !important;
+  border-radius: 14px !important;
+}
+[data-testid="stExpander"] summary,
+[data-testid="stExpander"] summary * {
+  color: #173052 !important;
+}
+
+/* Target-deflection grid controls. */
+.st-key-card_targets [data-testid="stNumberInput"] [data-baseweb="input"] {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+}
+.st-key-card_targets [data-testid="stNumberInput"] input {
+  color: #173052 !important;
+  -webkit-text-fill-color: #173052 !important;
+}
+
+/* Welcome screen: remove accidental horizontal overflow and improve scale. */
+.stApp:has(.welcome-hero) .block-container {
+  width: 100% !important;
+  max-width: none !important;
+  padding: .8rem !important;
+}
+.welcome-hero {
+  min-height: min(88vh, 900px);
+  border-radius: 26px;
+}
+.hero-content {
+  width: min(92%, 1080px);
+}
+.hero-brand {
+  text-shadow: 0 2px 18px rgba(255,255,255,.18);
+}
+.hero-tag {
+  text-shadow: 0 1px 8px rgba(255,255,255,.25);
+}
+
+/* Mobile and tablet layout. */
+@media (max-width: 900px) {
+  .block-container {
+    width: 100% !important;
+    padding: 1rem .8rem 2rem !important;
+  }
+  [class*="st-key-card_"] {
+    padding: 1rem !important;
+    border-radius: 17px !important;
+  }
+  .pi-page-title h1 {
+    font-size: clamp(1.65rem, 5.5vw, 2.4rem) !important;
+  }
+  .welcome-hero {
+    min-height: 82vh;
+    border-radius: 18px;
+  }
+  .hero-content {
+    top: 27%;
+  }
+  .hero-sub {
+    letter-spacing: .2em;
+    line-height: 1.6;
+  }
+  .hero-tag {
+    letter-spacing: .12em;
+    line-height: 1.8;
+  }
+}
+
+/* ============================================================
+   PAVE INVERSE - FINAL VISUAL DESIGN OVERRIDES
+   ============================================================ */
+
+
+/* ------------------------------------------------------------
+   1. REAL ROAD PHOTOGRAPH ON WELCOME SCREEN
+   ------------------------------------------------------------ */
+
+.welcome-hero {
+    --road-bg: url("app/static/road_bg.jpg");
+
+    background-image:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,0.08),
+            rgba(255,240,215,0.12)
+        ),
+        var(--road-bg) !important;
+
+    background-size: cover !important;
+    background-position: center 58% !important;
+    background-repeat: no-repeat !important;
+
+    min-height: min(88vh, 900px);
+    border-radius: 26px;
+    overflow: hidden;
+}
+
+/* Hide artificial landscape and road */
+.welcome-hero.has-photo .hero-land,
+.welcome-hero.has-photo .hero-road {
+    display: none !important;
+}
+
+/* Keep decorative corner shapes */
+.welcome-hero .hero-shape {
+    z-index: 1;
+}
+
+/* Keep welcome text above photograph */
+.welcome-hero .hero-content {
+    z-index: 2;
+}
+
+/* Improve text visibility over photograph */
+.welcome-hero .hero-welcome,
+.welcome-hero .hero-brand,
+.welcome-hero .hero-sub,
+.welcome-hero .hero-tag {
+    color: #12294d !important;
+    text-shadow: 0 2px 12px rgba(255,255,255,0.28);
+}
+
+
+/* ------------------------------------------------------------
+   2. LIGHT THEME FOR RESULTS DATAFRAMES
+   ------------------------------------------------------------ */
+
+/* Streamlit dataframe / Glide Data Grid theme variables */
+[data-testid="stDataFrame"] {
+
+    color-scheme: light !important;
+
+    --gdg-bg-cell: #ffffff;
+    --gdg-bg-cell-medium: #f5f7fa;
+    --gdg-bg-header: #e9eff5;
+    --gdg-bg-header-hover: #dce6ef;
+    --gdg-bg-header-has-focus: #dce6ef;
+
+    --gdg-text-dark: #173052;
+    --gdg-text-medium: #40536b;
+    --gdg-text-light: #69798d;
+    --gdg-text-header: #173052;
+
+    --gdg-border-color: #d8dee5;
+    --gdg-accent-color: #c9a24b;
+    --gdg-link-color: #244f7c;
+
+    background: #ffffff !important;
+
+    border: 1px solid #d8dee5 !important;
+    border-radius: 14px !important;
+
+    box-shadow: 0 8px 24px rgba(18,41,77,0.09);
+    overflow: hidden !important;
+}
+
+
+/* ------------------------------------------------------------
+   3. NORMAL HTML TABLES
+   ------------------------------------------------------------ */
+
+[data-testid="stTable"] {
+    background: #ffffff !important;
+    border-radius: 14px !important;
+    overflow: hidden !important;
+    border: 1px solid #d8dee5 !important;
+}
+
+[data-testid="stTable"] table {
+    background: #ffffff !important;
+    border-collapse: collapse !important;
+    width: 100% !important;
+}
+
+[data-testid="stTable"] thead th {
+    background: #e9eff5 !important;
+    color: #173052 !important;
+    font-weight: 700 !important;
+    border-bottom: 2px solid #c9a24b !important;
+    padding: 13px !important;
+}
+
+[data-testid="stTable"] tbody td {
+    background: #ffffff !important;
+    color: #24344d !important;
+    border-bottom: 1px solid #e2e7ed !important;
+    padding: 12px !important;
+}
+
+[data-testid="stTable"] tbody tr:nth-child(even) td {
+    background: #f5f7fa !important;
+}
+
+
+/* ------------------------------------------------------------
+   4. RESULTS TABLE CONTAINER
+   ------------------------------------------------------------ */
+
+[data-testid="stDataFrame"],
+[data-testid="stTable"] {
+    margin-top: 10px;
+    margin-bottom: 18px;
+}
+
+
+/* ------------------------------------------------------------
+   5. METRIC CARDS - MATCH TABLE THEME
+   ------------------------------------------------------------ */
+
+[data-testid="stMetric"] {
+    background: rgba(255,255,255,0.96) !important;
+
+    border: 1px solid #e0e5eb !important;
+    border-top: 4px solid #c9a24b !important;
+
+    border-radius: 17px !important;
+
+    box-shadow: 0 8px 24px rgba(18,41,77,0.08) !important;
+}
+
+[data-testid="stMetricLabel"] p {
+    color: #52627a !important;
+}
+
+[data-testid="stMetricValue"] {
+    color: #173052 !important;
+}
+
+
+/* ------------------------------------------------------------
+   6. RESULTS PAGE HEADINGS
+   ------------------------------------------------------------ */
+
+[data-testid="stMain"] h1,
+[data-testid="stMain"] h2,
+[data-testid="stMain"] h3 {
+    color: #173052 !important;
+}
+
+
+/* ------------------------------------------------------------
+   7. RESPONSIVE WELCOME IMAGE
+   ------------------------------------------------------------ */
+
+@media (max-width: 900px) {
+
+    .welcome-hero {
+        min-height: 82vh;
+        background-position: center center !important;
+        border-radius: 18px;
+    }
+
+    .hero-content {
+        top: 27%;
+    }
+
+    .hero-brand {
+        font-size: clamp(2rem, 8vw, 4rem);
+    }
+}
+
+/* PAVE INVERSE - REAL ROAD BACKGROUND IMAGE */
+
+.welcome-hero {
+    --road-bg: url("/app/static/road_bg.jpg");
+
+    background-image:
+        linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.08),
+            rgba(255, 240, 215, 0.12)
+        ),
+        var(--road-bg) !important;
+
+    background-size: cover !important;
+    background-position: center 58% !important;
+    background-repeat: no-repeat !important;
+}
+
+/* Hide the CSS-generated road and mountains */
+.welcome-hero.has-photo .hero-land,
+.welcome-hero.has-photo .hero-road {
+    display: none !important;
+}
+/* Make both Analysis Mode buttons identical */
+
+div[data-testid="stButton"] > button,
+div[data-testid="stButton"] > button[kind="primary"],
+div[data-testid="stButton"] > button[kind="secondary"] {
+    background-color: #285B45 !important;
+    color: #FFFFFF !important;
+    border: 1px solid #285B45 !important;
+    border-radius: 12px !important;
+    font-weight: 600 !important;
+    min-height: 48px !important;
+    box-shadow: 0 6px 16px rgba(40, 91, 69, 0.18) !important;
+}
+
+/* Same hover effect for both buttons */
+
+div[data-testid="stButton"] > button:hover {
+    background-color: #1F4938 !important;
+    color: #FFFFFF !important;
+    border-color: #1F4938 !important;
+    transform: translateY(-2px);
+    transition: all 0.2s ease;
+}
+/* FIX: Make Excel Analysis button text white */
+
+div[data-testid="stButton"] button[kind="secondary"],
+div[data-testid="stButton"] button[kind="secondary"] *,
+div[data-testid="stButton"] button[kind="secondary"] p,
+div[data-testid="stButton"] button[kind="secondary"] span {
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+}
+
+/* Keep both buttons consistent */
+div[data-testid="stButton"] button {
+    background-color: #285B45 !important;
+    border: 1px solid #285B45 !important;
+    border-radius: 12px !important;
+}
+
+/* =========================================
+   PAVE INVERSE - EXCEL FILE UPLOAD BUTTON
+   ========================================= */
+
+/* Upload container */
+[data-testid="stFileUploader"] section {
+    background: #FFFFFF !important;
+    border: 2px dashed #C9A23B !important;
+    border-radius: 16px !important;
+}
+
+/* Browse files button */
+[data-testid="stFileUploader"] button,
+[data-testid="stFileUploader"] button[kind="secondary"] {
+    background-color: #285B45 !important;
+    color: #FFFFFF !important;
+    border: 1px solid #285B45 !important;
+    border-radius: 10px !important;
+    font-weight: 700 !important;
+    padding: 10px 22px !important;
+}
+
+/* Ensure button text is visible */
+[data-testid="stFileUploader"] button *,
+[data-testid="stFileUploader"] button span,
+[data-testid="stFileUploader"] button p {
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+}
+
+/* Hover effect */
+[data-testid="stFileUploader"] button:hover {
+    background-color: #1F4938 !important;
+    border-color: #1F4938 !important;
+    color: #FFFFFF !important;
+}
+
+/* Upload instructions */
+[data-testid="stFileUploader"] section small {
+    color: #40536B !important;
+}
+
+/* ==========================================
+   STANDARD EXCEL TEMPLATE DOWNLOAD
+========================================== */
+
+.template-download-heading {
+    margin-top: 22px;
+    margin-bottom: 12px;
+}
+
+.template-download-heading h3 {
+    color: #1d3155 !important;
+    font-size: 23px !important;
+    font-weight: 750 !important;
+    margin-bottom: 6px !important;
+}
+
+.template-download-heading p {
+    color: #69788c !important;
+    font-size: 15px !important;
+}
+
+/* Download button */
+div[data-testid="stDownloadButton"] button {
+    background: #b94742 !important;
+    color: #ffffff !important;
+    border: 1px solid #a63b36 !important;
+    border-radius: 10px !important;
+    min-height: 48px !important;
+    font-weight: 700 !important;
+    font-size: 15px !important;
+    box-shadow: 0 5px 14px rgba(185, 71, 66, 0.18) !important;
+    transition: all 0.2s ease !important;
+}
+
+div[data-testid="stDownloadButton"] button:hover {
+    background: #963631 !important;
+    border-color: #963631 !important;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+}
+
+/* =====================================================
+   PAVE INVERSE — PREMIUM ANALYSIS SELECTION CARDS
+   ===================================================== */
+
+/* Intro subtitle */
+
+.analysis-intro {
+    text-align: center;
+    margin-top: -5px;
+    margin-bottom: 28px;
+}
+
+.analysis-subtitle {
+    color: #64748b;
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: 0.15px;
+    margin: 0;
+}
+
+
+/* Main card containers */
+
+.st-key-one_analysis_card,
+.st-key-excel_analysis_card {
+
+    background:
+        linear-gradient(
+            115deg,
+            rgba(255,255,255,0.97),
+            rgba(250,248,239,0.94)
+        ) !important;
+
+    border: 1.5px solid #dfc36f !important;
+
+    border-radius: 24px !important;
+
+    padding: 15px 15px 14px 15px !important;
+
+    box-shadow:
+        0 8px 22px rgba(34, 49, 65, 0.08),
+        0 2px 5px rgba(34, 49, 65, 0.04) !important;
+
+    min-height: 255px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+
+/* Hover effect */
+
+.st-key-one_analysis_card:hover,
+.st-key-excel_analysis_card:hover {
+
+    transform: translateY(-4px);
+
+    border-color: #c49a38 !important;
+
+    box-shadow:
+        0 15px 32px rgba(34, 49, 65, 0.13),
+        0 4px 10px rgba(196, 154, 56, 0.10) !important;
+}
+
+
+/* Card's upper content */
+
+.analysis-card-content {
+
+    min-height: 160px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 22px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 10px 10px 12px 10px;
+
+}
+
+
+/* Circular gold icon background */
+
+.analysis-icon-circle {
+
+    width: 116px;
+
+    height: 116px;
+
+    min-width: 116px;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            145deg,
+            #fff0bd,
+            #f4d987
+        );
+
+    border: 1px solid rgba(196, 154, 56, 0.35);
+
+    box-shadow:
+        0 8px 20px rgba(196, 154, 56, 0.20),
+        inset 0 2px 5px rgba(255,255,255,0.75);
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    z-index: 2;
+}
+
+.analysis-icon-circle svg {
+
+    width: 69px;
+
+    height: 69px;
+}
+
+
+/* Heading and description */
+
+.analysis-card-text {
+
+    flex: 1;
+
+    min-width: 0;
+
+    position: relative;
+
+    z-index: 2;
+
+    padding-right: 4px;
+}
+
+.analysis-card-text h2 {
+
+    color: #173052 !important;
+
+    font-size: clamp(20px, 2vw, 31px) !important;
+
+    font-weight: 750 !important;
+
+    line-height: 1.2 !important;
+
+    margin: 0 0 12px 0 !important;
+
+    letter-spacing: -0.6px;
+}
+
+.analysis-card-text p {
+
+    color: #667487 !important;
+
+    font-size: 16px !important;
+
+    font-weight: 400 !important;
+
+    line-height: 1.5 !important;
+
+    margin: 0 !important;
+
+    max-width: 430px;
+}
+
+
+/* Decorative illustration on the right */
+
+.analysis-card-art {
+
+    position: absolute;
+
+    right: -12px;
+
+    top: -10px;
+
+    width: 150px;
+
+    height: 170px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            140deg,
+            rgba(209, 224, 210, 0.50),
+            rgba(226, 232, 217, 0.20)
+        );
+
+    border-radius: 65% 0 0 65%;
+
+    z-index: 1;
+
+    pointer-events: none;
+}
+
+.analysis-card-art svg {
+
+    width: 112px;
+
+    height: 112px;
+
+    opacity: 0.75;
+}
+
+
+/* One-to-one road art */
+
+.road-art {
+
+    background:
+        linear-gradient(
+            140deg,
+            rgba(194, 216, 202, 0.65),
+            rgba(224, 232, 218, 0.25)
+        );
+}
+
+
+/* Excel illustration */
+
+.excel-art {
+
+    background:
+        linear-gradient(
+            140deg,
+            rgba(194, 216, 202, 0.60),
+            rgba(224, 232, 218, 0.25)
+        );
+}
+
+
+/* Buttons at the bottom of each card */
+
+.st-key-one_analysis_card .stButton,
+.st-key-excel_analysis_card .stButton {
+
+    margin-top: 0 !important;
+
+    padding: 0 5px !important;
+
+    position: relative;
+
+    z-index: 3;
+}
+
+.st-key-one_analysis_card .stButton > button,
+.st-key-excel_analysis_card .stButton > button {
+
+    width: 100%;
+
+    min-height: 57px;
+
+    border-radius: 17px !important;
+
+    background:
+        linear-gradient(
+            110deg,
+            #315e47,
+            #28533e
+        ) !important;
+
+    color: #ffffff !important;
+
+    border: 1px solid #315e47 !important;
+
+    font-size: 17px !important;
+
+    font-weight: 650 !important;
+
+    letter-spacing: 0.1px;
+
+    box-shadow:
+        0 7px 16px rgba(39, 83, 62, 0.18) !important;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease !important;
+}
+
+
+/* Button hover */
+
+.st-key-one_analysis_card .stButton > button:hover,
+.st-key-excel_analysis_card .stButton > button:hover {
+
+    background:
+        linear-gradient(
+            110deg,
+            #214b37,
+            #193e2d
+        ) !important;
+
+    border-color: #214b37 !important;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 20px rgba(39, 83, 62, 0.25) !important;
+}
+
+
+/* Button focus */
+
+.st-key-one_analysis_card .stButton > button:focus,
+.st-key-excel_analysis_card .stButton > button:focus {
+
+    outline: 2px solid #c49a38 !important;
+
+    outline-offset: 3px !important;
+}
+
+
+/* Responsive layout */
+
+@media (max-width: 1100px) {
+
+    .analysis-card-content {
+        gap: 15px;
+    }
+
+    .analysis-icon-circle {
+        width: 90px;
+        height: 90px;
+        min-width: 90px;
+    }
+
+    .analysis-icon-circle svg {
+        width: 57px;
+        height: 57px;
+    }
+
+    .analysis-card-text h2 {
+        font-size: 23px !important;
+    }
+
+    .analysis-card-text p {
+        font-size: 14px !important;
+    }
+
+    .analysis-card-art {
+        width: 105px;
+        opacity: 0.75;
+    }
+}
+
+@media (max-width: 700px) {
+
+    .analysis-intro {
+        margin-bottom: 18px;
+    }
+
+    .analysis-subtitle {
+        font-size: 14px;
+    }
+
+    .st-key-one_analysis_card,
+    .st-key-excel_analysis_card {
+        min-height: 225px;
+        padding: 12px !important;
+        border-radius: 19px !important;
+    }
+
+    .analysis-card-content {
+        min-height: 135px;
+        gap: 12px;
+    }
+
+    .analysis-icon-circle {
+        width: 76px;
+        height: 76px;
+        min-width: 76px;
+    }
+
+    .analysis-icon-circle svg {
+        width: 48px;
+        height: 48px;
+    }
+
+    .analysis-card-text h2 {
+        font-size: 19px !important;
+        margin-bottom: 7px !important;
+    }
+
+    .analysis-card-text p {
+        font-size: 13px !important;
+    }
+
+    .analysis-card-art {
+        display: none;
+    }
+
+    .st-key-one_analysis_card .stButton > button,
+    .st-key-excel_analysis_card .stButton > button {
+        min-height: 49px;
+        font-size: 14px !important;
+    }
+}
